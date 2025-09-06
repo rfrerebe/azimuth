@@ -1,0 +1,75 @@
+# Git files
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+README.md
+*.md
+
+# Docker files
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Build outputs
+**/bin/
+**/obj/
+**/out/
+**/TestResults/
+
+# NuGet packages
+**/packages/
+**/.nuget/
+
+# Visual Studio files
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# MSBuild Binary and Structured Log
+*.binlog
+*.sarif
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# Test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.VisualState.xml
+TestResult.xml
+*.trx
+
+# Coverage reports
+coverage/
+*.coverage
+*.coveragexml
+
+# Azure Functions localsettings file
+local.settings.json
+
+# User secrets
+**/appsettings.Development.json
+**/appsettings.Local.json
