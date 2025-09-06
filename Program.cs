@@ -12,6 +12,5 @@ builder.Services.AddLogging();
 builder.Services.AddHostedService<CheckService>();
 var host = builder.Build();
 
-await host.StartAsync();
-await host.StopAsync();
+await host.RunAsync();
 

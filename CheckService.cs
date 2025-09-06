@@ -11,35 +11,62 @@ public class CheckService : BackgroundService
 
     private readonly ILogger<CheckService> logger;
 
-    public CheckService(IOptions<CheckConfig> checkConfig, EmailService emailService, ILogger<CheckService> logger)
+
+    private readonly IHostApplicationLifetime appLifetime;
+
+    public CheckService(IOptions<CheckConfig> checkConfig, EmailService emailService, IHostApplicationLifetime appLifetime, ILogger<CheckService> logger)
     {
         this.checkConfig = checkConfig.Value ?? throw new ArgumentNullException(nameof(checkConfig));
         this.emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
         this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        this.appLifetime = appLifetime ?? throw new ArgumentNullException(nameof(appLifetime));
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        this.logger.LogInformation("Starting ...");
-        var check = await this.CheckWebsite();
-        if (check.Status && check.Value != null)
+        try
         {
-            if (check.Value.Contains(this.checkConfig.ExpectedText))
+            this.logger.LogInformation("Starting ...");
+            var check = await this.CheckWebsite();
+            if (check.Status && check.Value != null)
             {
-                await this.emailService.SendEmailAsync(this.checkConfig.Sender, this.checkConfig.Recipient, $"{this.checkConfig.Url} is unchanged", "", false);
+                if (check.Value.Contains(this.checkConfig.ExpectedText))
+                {
+                    await this.emailService.SendEmailAsync(
+                        this.checkConfig.Sender,
+                        this.checkConfig.Recipient,
+                        $"{this.checkConfig.Url} is unchanged",
+                        "",
+                        false);
+                }
+                else
+                {
+                    await this.emailService.SendEmailAsync(
+                        this.checkConfig.Sender,
+                        this.checkConfig.Recipient,
+                        $"{this.checkConfig.Url} has changed 🎉",
+                        $"Element is present, but text has changed. {check.Value}. Expected Text :{this.checkConfig.ExpectedText}",
+                        false);
+                }
             }
-            else
-            {
-                await this.emailService.SendEmailAsync(this.checkConfig.Sender, this.checkConfig.Recipient, $"{this.checkConfig.Url} has changed 🎉", $"Element is present, but text has changed. {check.Value}. Expected Text :{this.checkConfig.ExpectedText}", false);
-            }
-        }
 
-        if (!check.Status && check.Message != null)
+            if (!check.Status && check.Message != null)
+            {
+                await this.emailService.SendEmailAsync(
+                    this.checkConfig.Sender,
+                    this.checkConfig.Recipient,
+                    $"{this.checkConfig.Url} has changed 🎉",
+                    check.Message,
+                    false);
+            }
+
+            this.logger.LogInformation("Finished");
+        }
+        finally
         {
-            await this.emailService.SendEmailAsync(this.checkConfig.Sender, this.checkConfig.Recipient, $"{this.checkConfig.Url} has changed 🎉", check.Message, false);
+            this.appLifetime.StopApplication();
         }
         
-        this.logger.LogInformation("Finished");
     }
 
 
