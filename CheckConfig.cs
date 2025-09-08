@@ -11,7 +11,7 @@ public class CheckConfig
 
     public required int TimeoutMs { get; set; } = 30000;
 
-    public required string QuerySelector { get; set; } = "div.bye-azimuth";
+    //public required string QuerySelector { get; set; } = "div.bye-azimuth";
 
-    public required string ExpectedText { get; set; } = "est fermé pour l'été";
+    //public required string ExpectedText { get; set; } = "est fermé pour l'été";
 }

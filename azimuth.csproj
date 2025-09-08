@@ -11,7 +11,8 @@
     <PackageReference Include="Azure.Identity" Version="1.15.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
     <PackageReference Include="Microsoft.Graph" Version="5.91.0" />
-    <PackageReference Include="Microsoft.Playwright" Version="1.55.0" />
+    <!--<PackageReference Include="Microsoft.Playwright" Version="1.55.0" />-->
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
   </ItemGroup>
 
    <ItemGroup>

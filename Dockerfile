@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright/dotnet:v1.55.0-noble AS base
+FROM mcr.microsoft.com/dotnet/runtime:8.0-noble-chiseled AS base
 WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS publish

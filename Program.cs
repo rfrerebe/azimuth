@@ -9,6 +9,7 @@ builder.Services.Configure<CheckConfig>(builder.Configuration.GetSection(CheckCo
 builder.Services.Configure<GraphConfig>(builder.Configuration.GetSection(GraphConfig.Key));
 builder.Services.AddSingleton<EmailService>();
 builder.Services.AddLogging();
+builder.Services.AddHttpClient();
 builder.Services.AddHostedService<CheckService>();
 var host = builder.Build();
 
